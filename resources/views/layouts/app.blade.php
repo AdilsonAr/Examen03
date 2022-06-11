@@ -44,15 +44,11 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         @auth
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/suppliers') }}">Proveedores</a>
-                            </li>
+                            
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/empleados') }}">Empleados</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/banks') }}">Bancos</a>
-                            </li>
+                           
                         @endauth
                     </ul>
 
