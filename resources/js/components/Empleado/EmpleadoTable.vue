@@ -14,21 +14,16 @@
         </tr>
         <tr v-for="(value, index) in data" :key="value.id">
           <td>{{ index + 1 }}</td>
-          <td>{{ value.code }}</td>
-          <td>{{ value.document_name }}</td>
-          <td>{{ value.account_number }}</td>
-          <td>{{ value.initial_amount }}</td>
-          <td>{{ value.name_bank }}</td>
+          <td>{{ value.nombre }}</td>
+          <td>{{ value.edad }}</td>
+          <td>{{ value.direccion }}</td>
+          <td>{{ value.sueldo }}</td>
+          <td>{{ value.nombre_s }}</td>
           <td>
             <a href="#" class="btn btn-warning" @click="edit(value.id)"
               ><i class="fa fa-edit"></i> Editar</a
             >
-            <a href="#" class="btn btn-danger" @click="deleteValue(value.id)"
-              ><i class="fa fa-trash"></i> Eliminar</a
-            >
-            <a href="#" class="btn btn-info" @click="generateReport(value.id)">
-              <i class="fa fa-doc"></i> Reporte</a
-            >
+            
           </td>
         </tr>
       </tbody>

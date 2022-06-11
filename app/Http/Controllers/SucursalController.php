@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bank;
+use App\Models\Sucursal;
 use Illuminate\Http\Request;
 
-class BankController extends Controller
+class SucursalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class BankController extends Controller
      */
     public function index()
     {
-        $banks = Bank::all();
+        $Sucursals = Sucursal::all();
 
-        return response()->json(['message' => 'success', 'banks'=>$banks]);
+        return response()->json(['message' => 'success', 'sucursals'=>$Sucursals]);
     }
 
     /**
@@ -27,17 +27,17 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
-        Bank::insert($request->all());
+        Sucursal::insert($request->all());
         return response()->json(['message'=>'success']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Bank  $banks
+     * @param  \App\Models\Sucursal  $Sucursals
      * @return \Illuminate\Http\Response
      */
-    public function show(Bank $bank)
+    public function show(Sucursal $Sucursal)
     {
         //
     }
@@ -46,24 +46,24 @@ class BankController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Bank  $banks
+     * @param  \App\Models\Sucursal  $Sucursals
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bank $bank)
+    public function update(Request $request, Sucursal $Sucursal)
     {
-        Bank::where('id', $bank->id)->update($request->all());
+        Sucursal::where('id', $Sucursal->id)->update($request->all());
         return response()->json(["message"=>"success"]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Bank  $banks
+     * @param  \App\Models\Sucursal  $Sucursals
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bank $bank)
+    public function destroy(Sucursal $Sucursal)
     {
-        Bank::where('id', $bank->id)->delete();
+        Sucursal::where('id', $Sucursal->id)->delete();
         return response()->json(["message"=>"success"]);
     }
 }

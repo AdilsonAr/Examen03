@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Document extends Model
+class Empleado extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
-        'code',
-        'name_document',
+        'nombre',
+        'edad',
+        'sueldo_base',
+        'direccion',
+        'sucursal_id',
+        'user_id',
     ];
 
     protected $timestamp = true;

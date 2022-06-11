@@ -48,7 +48,7 @@
                                 <a class="nav-link" href="{{ url('/suppliers') }}">Proveedores</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/documents') }}">Cuentas</a>
+                                <a class="nav-link" href="{{ url('/empleados') }}">Empleados</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/banks') }}">Bancos</a>

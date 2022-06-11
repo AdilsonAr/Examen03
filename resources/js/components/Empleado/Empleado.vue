@@ -3,54 +3,52 @@
     <div class="container">
       <template v-if="!loading">
         <div class="row">
-          <h1>Cuentas</h1>
+          <h1>Empleados</h1>
           <!-- Form -->
           <div class="col-md-4 d-none">
-            <input class="form-control" type="text" v-model="document.id" />
+            <input class="form-control" type="text" v-model="empleado.id" />
           </div>
 
           <div class="col-md-4 pt-3">
-            <label>Código</label>
-            <input class="form-control" type="text" v-model="document.code" />
+            <label>nombre</label>
+            <input class="form-control" type="text" v-model="empleado.nombre" />
           </div>
           <div class="col-md-4 pt-3">
-            <label>Nombre</label>
-            <input
-              class="form-control"
-              type="text"
-              v-model="document.document_name"
-            />
-          </div>
-          <div class="col-md-4 pt-3">
-            <label>Banco</label>
-            <select v-model="document.name_bank" class="form-select">
-              <option
-                v-for="bank in banks"
-                :key="bank.id"
-                :value="bank.name_bank"
-              >
-                {{ bank.name_bank }}
-              </option>
-            </select>
-          </div>
-          <div class="col-md-4 pt-3">
-            <label>No. de cuenta</label>
-            <input
-              class="form-control"
-              type="text"
-              v-model="document.account_number"
-            />
-          </div>
-          <div class="col-md-4 pt-3">
-            <label>Monto inicial (US$)</label>
+            <label>edad</label>
             <input
               class="form-control"
               type="number"
-              step="0.01"
-              v-model="document.initial_amount"
+              v-model="empleado.edad"
+            />
+          </div>
+          <div class="col-md-4 pt-3">
+            <label>direccion</label>
+            <input class="form-control" type="text" v-model="empleado.direccion" />
+          </div>
+          <div class="col-md-4 pt-3">
+            <label>sueldo base</label>
+            <input
+              class="form-control"
+              type="number"
+              step="0.1"
+              v-model="empleado.sueldo_base"
             />
           </div>
 
+          <div class="col-md-4 pt-3">
+            <label>Sucursal</label>
+            <select v-model="empleado.nombre_s" class="form-select">
+              <option
+                v-for="s in sucursals"
+                :key="s.id"
+                :value="s.nombre"
+              >
+                {{ s.nombre }}
+              </option>
+            </select>
+          </div>
+         
+          
           <div class="col-md-12 pt-3">
             <a href="#" class="btn btn-success" @click="save()">
               <i class="fa fa-save"></i> {{ textButton }}</a
@@ -58,8 +56,8 @@
           </div>
 
           <!-- Table -->
-          <document-table
-            :data="documents"
+          <empleado-table
+            :data="empleados"
             :headers="headers"
             @delete="deleteP($event)"
             @edit="edit($event)"
@@ -88,22 +86,24 @@ export default {
   components: { PaginationLaravel },
   data: () => {
     return {
-      document: {
-        code: "",
-        document_name: "",
-        account_number: "",
-        name_bank: "",
-        initial_amount: "0.00",
+      empleado: {
+        id: "",
+        nombre: "",
+        edad: "",
+        sueldo_base: "0.0",
+        direccion: "",
+        nombre_s: "",
+        user_id: "",
       },
-      banks: [],
-      documents: [],
+      sucursals: [],
+      empleados: [],
       headers: [
         "#",
-        "Código",
         "Nombre",
-        "No. de cuenta",
-        "Monto inicial",
-        "Banco",
+        "Edad",
+        "Direccion",
+        "Sueldo",
+        "Sucursal",
         "Acciones",
       ],
       textButton: "Guardar",
@@ -120,15 +120,15 @@ export default {
     async initialize() {
       this.loading = true;
 
-      let res = await axios.get("api/document");
-      this.documents = res.data.documents.data;
-      this.pagination = res.data.documents;
+      let res = await axios.get("api/empleado");
+      this.empleados = res.data.empleados;
+      this.pagination = res.data.empleados;
 
-      res = await axios.get("api/bank");
-      this.banks = res.data.banks;
+      res = await axios.get("api/sucursal");
+      this.sucursals = res.data.sucursals;
 
-      if (this.banks.length > 0) {
-        this.document.name_bank = res.data.banks[0].name_bank;
+      if (this.sucursals.length > 0) {
+        this.empleado.nombre_s = res.data.sucursals[0].nombre;
       }
 
       this.loading = false;
@@ -138,18 +138,18 @@ export default {
       let res;
       switch (this.textButton) {
         case "Guardar":
-          res = await axios.post("api/document", this.document).catch((e) => {
+          res = await axios.post("api/empleado", this.empleado).catch((e) => {
             ui.alert("Registro no pudo ser guardado correctamente.", "error");
           });
 
           if (res.data.message == "success") {
-            this.documents = res.data.documents;
+            this.empleado = res.data.empleado;
             ui.alert("Registro creado correctamente.");
           }
           break;
         case "Modificar":
           res = await axios
-            .put(`api/document/${this.document.id}`, this.document)
+            .put(`api/empleado/${this.empleado.id}`, this.empleado)
             .catch((e) => {
               ui.alert(
                 "Registro no pudo ser actualizado correctamente.",
@@ -167,7 +167,7 @@ export default {
     },
 
     edit(id) {
-      this.document = this.documents.find((document) => document.id == id);
+      this.empleado = this.empleados.find((empleado) => empleado.id == id);
       this.textButton = "Modificar";
     },
 
@@ -183,7 +183,7 @@ export default {
         confirmButtonText: "Confimar",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const res = await axios.delete(`api/document/${id}`).catch((e) => {
+          const res = await axios.delete(`api/empleado/${id}`).catch((e) => {
             ui.alert("Registro no pudo ser eliminado correctamente.", "error");
           });
 
@@ -197,20 +197,22 @@ export default {
     },
 
     cleanInputs() {
-      this.document = {
-        code: "",
-        document_name: "",
-        account_number: "",
-        name_bank: "",
-        initial_amount: "0.00",
+      this.empleado = {
+        id: "",
+        nombre: "",
+        edad: "",
+        sueldo_base: "0.0",
+        direccion: "",
+        nombre_s: "",
+        user_id: "",
       };
       this.textButton = "Guardar";
     },
 
     async getResults(page = 1) {
       const res = await axios.get(this.pagination.path + "?page=" + page);
-      this.documents = res.data.documents.data;
-      this.pagination = res.data.documents;
+      this.empleados = res.data.empleados;
+      this.pagination = res.data.empleados;
     },
   },
 };
