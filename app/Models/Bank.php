@@ -13,6 +13,7 @@ class Bank extends Model
         'id',
         'name_bank',
         'account_number',
+        'code_bank',
     ];
 
     protected $timestamp = true;
